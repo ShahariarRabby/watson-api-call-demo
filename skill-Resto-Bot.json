@@ -1,0 +1,142 @@
+{
+  "name": "Resto Bot",
+  "intents": [
+    {
+      "intent": "ask-price",
+      "examples": [
+        {
+          "text": "how much is it?"
+        },
+        {
+          "text": "how much?"
+        },
+        {
+          "text": "how much do i owe you?"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "order-pizza",
+      "examples": [
+        {
+          "text": "I want to order pizza"
+        },
+        {
+          "text": "I want pizza"
+        },
+        {
+          "text": "can I get a pizza"
+        }
+      ],
+      "description": ""
+    }
+  ],
+  "entities": [],
+  "language": "en",
+  "metadata": {
+    "api_version": {
+      "major_version": "v1",
+      "minor_version": "2018-09-20"
+    }
+  },
+  "description": "",
+  "dialog_nodes": [
+    {
+      "type": "standard",
+      "title": "Anything else",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "I didn't understand. You can try rephrasing."
+              },
+              {
+                "text": "Can you reword your statement? I'm not understanding."
+              },
+              {
+                "text": "I didn't get your meaning."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "metadata": {},
+      "conditions": "anything_else",
+      "dialog_node": "Anything else",
+      "previous_sibling": "node_3_1544413327333"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "What flavor of pizza?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "metadata": {},
+      "conditions": "#order-pizza",
+      "dialog_node": "node_2_1544413295150",
+      "previous_sibling": "Welcome"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "That will be 10 dollars, please."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "metadata": {},
+      "conditions": "#ask-price",
+      "dialog_node": "node_3_1544413327333",
+      "previous_sibling": "node_2_1544413295150"
+    },
+    {
+      "type": "standard",
+      "title": "Welcome",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Hi! I'm Resto Bot. How may I help you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "metadata": {},
+      "conditions": "welcome",
+      "dialog_node": "Welcome"
+    }
+  ],
+  "workspace_id": "dc30cbb3-2f4c-4255-8e88-311f4dbb6eac",
+  "counterexamples": [],
+  "system_settings": {
+    "tooling": {
+      "store_generic_responses": true
+    }
+  },
+  "learning_opt_out": false,
+  "status": "Available"
+}
