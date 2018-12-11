@@ -1,5 +1,4 @@
 import json
-import os
 import sys
 from watson_developer_cloud import AuthorizationV1, AssistantV1, WatsonException
 
@@ -24,6 +23,7 @@ def main() :
 	print("---\nThis is a demo bot for making Watson Assistant API calls\n---\n")
 
 	cred = get_credential_data()
+	context = { 'debug' : True }
 
 	try:
 		assistant = AssistantV1(
@@ -32,24 +32,29 @@ def main() :
 			url=cred['url']
 			)
 
-		input_message = raw_input("Ask the chatbot (e.g. I want to order pizza): ")
-
 		workspace = cred['workspace_id']
 
-		response = assistant.message(
-			workspace_id=workspace,
-			input={'text' : input_message}
-			).get_result()
+		while True:
+			input_message = input("Ask the chatbot (e.g. I want to order pizza): ")
 
-		print(json.dumps(response, indent=2))
-		print("Bot response: ", response['output']['text'][0])
+			response = assistant.message(
+				workspace_id=workspace,
+				input={'text' : input_message},
+				context=context
+				).get_result()
+
+			print(json.dumps(response, indent=2))
+			print("Bot response: ", response['output']['text'][0])
+			print('\n\n\n')
+
+			context = response['context']
 
 	except WatsonException as wex:
-		print wex
-		sys.exit(0)
+		print("Watson Error: ", wex)
+		sys.exit()
 	except KeyError as missingKey:
-		print "% key is missing in credentials" % missingKey
-		sys.exit(1)
+		print("% key is missing in credentials" % missingKey)
+		sys.exit()
 
 
 if __name__ == '__main__':
